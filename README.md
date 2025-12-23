@@ -10,4 +10,4 @@
 
 > ### 기술스택
 >
-> ![이미지](https://img.shields.io/badge/Spring_Boot-2.7.7-blue)
+> ![이미지](https://img.shields.io/badge/Spring_Boot-2.7.7-blue) > ![이미지](https://img.shields.io/badge/Nodejs-0-blue) > ![이미지](https://img.shields.io/badge/React-19-orange) > ![이미지](https://img.shields.io/badge/Spring_Boot-2.7.7-blue)
