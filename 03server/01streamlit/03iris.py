@@ -16,6 +16,12 @@ target_names = iris.target_names
 
 X_train,X_test,y_train,y_test = train_test_split(X,y)
 
+
+
+
+
+
+
 knn = KNeighborsClassifier(n_neighbors=3)
 knn.fit(X_train,y_train)
 
