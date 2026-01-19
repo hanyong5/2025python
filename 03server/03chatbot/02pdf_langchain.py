@@ -37,12 +37,52 @@ def create_vactor_store(chunks:list):
 def answer_question(question:str,knowledge_base)->str:
     docs = knowledge_base.similarity_search(question, k=5)
 
-    print("\n [검색된 관련 청크들]")
-    for i,doc in enumerate(docs,1):
-        preview = doc.page_content[:150].replace('\n',' ')
-        print(f'{i}. {preview}...')
+    # print("\n [검색된 관련 청크들]")
+    # for i,doc in enumerate(docs,1):
+    #     preview = doc.page_content[:150].replace('\n',' ')
+    #     print(f'{i}. {preview}...')
 
 
+    context = "\n\n".join([doc.page_content for doc in docs if doc.page_content])
+    client = OpenAI()
+
+    res = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                            "You are a helpful AI assistant. "
+                            "You must answer questions strictly based on the provided document content. "
+                            "If the answer is clearly stated in the document, provide a concise response. "
+                            "If the information is not available, respond with '문서에서 확인할 수 없습니다.' "
+                            "If the document content is in English, translate the answer into Korean."
+                           )
+                                # "content": (
+                                #     "당신은 도움이 되는 AI 어시스턴트입니다. "
+                                #     "제공된 문서 내용을 기반으로만 질문에 답변하세요. "
+                                #     "문서에 답이 있는 경우 명확하고 간결하게 답변하세요. "
+                                #     "문서에 없는 내용은 '문서에서 확인할 수 없습니다.'라고 답변하세요. "
+                                #     "문서 내용이 영어인 경우, 답변은 한국어로 번역해서 제공하세요."
+                                # )
+            },
+            {
+                "role": "user",
+                "content": f"Based on the following document content, please answer the question.\n\nDocument:\n{context}\n\nQuestion: {question}"
+            }
+        ],
+        temperature=0,
+        max_tokens=500
+    )
+
+    # response = client.responses.create(
+    #     model='',
+    #     input=''
+    # )
+
+    return res.choices[0].message.content
+
+   
 
 def main():
     pdf_path = "data/summary.pdf"
@@ -65,7 +105,11 @@ def main():
     knowledge_base= create_vactor_store(chunks)
 
     print("\n----------질문응답테스트---------")
-    question = "where can i use chatGPT?"
+    question = "What’s the weather today?"
+    # How can ChatGPT be used?
+	# Ways to use ChatGPT
+	# Applications of ChatGPT
+	# Use cases of ChatGPT   
     print(f'질문 : {question}')
 
 
@@ -75,3 +119,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
