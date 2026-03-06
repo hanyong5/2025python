@@ -103,9 +103,13 @@ def main():
 
     print("\n----------백터스토어생성---------")
     knowledge_base= create_vactor_store(chunks)
+    if knowledge_base:
+        print(f'백터스토어 생성 완료 : {knowledge_base.index.ntotal}개 벡터')
+    else:
+        print('백터스토어 생성 실패')
 
     print("\n----------질문응답테스트---------")
-    question = "What’s the weather today?"
+    question = "Ways to use ChatGPT?"
     # How can ChatGPT be used?
 	# Ways to use ChatGPT
 	# Applications of ChatGPT
